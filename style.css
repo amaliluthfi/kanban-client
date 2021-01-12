@@ -1,0 +1,29 @@
+.navbar {
+      background-color: #0d335d;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+}
+
+nav div ul {
+      display: flex;
+      flex-direction: row;
+}
+
+li {
+      color: white;
+      margin: 8px;
+      list-style: none;
+}
+
+li a {
+      color: white;
+      text-decoration: none;
+}
+
+.row .col-2 b {
+      margin: 3px;
+
+}
+
+
