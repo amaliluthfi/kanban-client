@@ -1,0 +1,36 @@
+{
+  "name": "kanban-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "live-server": "^1.2.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.3.5",
+    "vue": "^2.6.12",
+    "vue-hot-reload-api": "^2.3.4"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.2.0",
+    "parcel-bundler": "^1.12.4",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amaliluthfi/kanban-client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amaliluthfi/kanban-client/issues"
+  },
+  "homepage": "https://github.com/amaliluthfi/kanban-client#readme"
+}

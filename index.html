@@ -3,76 +3,182 @@
 <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-      <link rel="stylesheet" href="./style.css">s
-      <script src="'./script.js"></script>
+      <title>Kanban</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> 
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="./style.css">
+      
 </head>
 <body>
+      <div id="app" style="background-color: #fff3e6;">
+      
+      <!-- NAVBAR-->
       <nav class="navbar">
             <div>
                   <img src="./logo-social.png" alt="logo" style="width: 50px;"> 
             </div>
-            <div>
+            <div class="nav-link active" v-if="halaman == 'add-task' || halaman == 'home' || halaman == 'add-task1' || halaman == 'add-task2' || halaman == 'add-task3' || halaman == 'add-task4'">
                   <ul>
-                        <li><a href="#">home</a></li>
-                        <li><a href="#">profile</a></li>
+                        <li><a href="#"  @click="home()">home</a></li>
+                        <li><a href="#" @click="getAll()">tasks</a></li>
+                        <li><a href="#" @click="gantiHalaman('add-task')"> add task</a></li>
+                  </ul>
+            </div>
+            <div class="nav-link active" v-else-if="halaman == 'login' || halaman == 'register'">
+                  <ul>
+                        <li><a href="#" @click="gantiHalaman('register')">register</a></li>
+                        <li><a href="#" @click="gantiHalaman('login')">login</a></li>
                   </ul>
             </div>
             <div>
-
+                  <button type="button" class="btn btn-danger" @click="logout()" >logout</button>
             </div>
       </nav>
 
-            <div class="container">
-                  <div class="row d-flex justify-content-between mt-2">
+      <!-- MAIN PAGE-->
+          
+                  <div class="row d-flex justify-content-between mt-2" v-if="halaman == 'home'">
                         <div class="col-2 col-sm"  >
-                              <div class="rounded" style="background-color: #c1a1d3; height: 80vh;" >
-                                    <b >Backlog</b>
-                                    <div class="card" style="margin: 2px;">
+                              <div class="rounded" style="background-color: #1a508b;" v-if="" >
+                                    <b style="color: white;" >Backlog</b>
+                                    <button class='btn btn-success btn-sm' @click="gantiHalaman('add-task1')" >add</button>
+                                    <div v-for="task in tasks"  :key="task.id" v-if="task.CategoryId == 1">
+                                    <div class="card" style="margin: 2px;" >
                                           <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
+                                            <h5 class="card-title">{{ task.title }}</h5>
                                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            <a href="#" class="btn btn-primary" @click="udpateTask()">Update</a>
+                                            <a href="#" class="btn btn-danger" @click="deleteTask()">Delete</a>
                                           </div>
                                         </div>
-                                        
+                                    </div>        
                               </div>
-                        </div><div class="col-2 col-sm"  >
-                              <div  class="rounded" style="background-color: #c1a1d3; height: 80vh;" > 
-                                    <b>Todo</b>
+                        </div>
+                        <div class="col-2 col-sm"  >
+                              <div  class="rounded" style="background-color: #1a508b;" > 
+                                    <b style="color: white;" >Todo</b>
+                                    <button class='btn btn-success btn-sm'@click="gantiHalaman('add-task2')" >add</button>
+                                    <div v-for="task in tasks"  :key="task.id" v-if="task.CategoryId == 2">
                                     <div class="card" style="margin: 2px;">
                                           <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
+                                            <h5 class="card-title" >{{ task.title }}</h5>
                                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            <a href="#" class="btn btn-primary" @click="udpateTask()">Update</a>
+                                            <a href="#" class="btn btn-danger" @click="deleteTask()">Delete</a>
                                           </div>
+                                        </div>
+                                    </div>
+                              </div>
+                        </div><div class="col-2 col-sm"  >
+                              <div  class="rounded" style="background-color: #1a508b;" >
+                                    <b style="color: white;" >Doing</b>
+                                    <button class='btn btn-success btn-sm' @click="gantiHalaman('add-task3')">add</button>
+                                    <div v-for="task in tasks"  :key="task.id" v-if="task.CategoryId == 3">
+                                    <div class="card" style="margin: 2px;">
+                                          <div class="card-body">
+                                            <h5 class="card-title">{{ task.title }}</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary" @click="udpateTask()">Update</a>
+                                            <a href="#" class="btn btn-danger" @click="deleteTask()">Delete</a>
+                                          </div>
+                                        </div>
                                         </div>
                               </div>
                         </div><div class="col-2 col-sm"  >
-                              <div  class="rounded" style="background-color: #c1a1d3; height: 80vh;" >
-                                    <b>Doing</b>
+                              <div class="rounded" style="background-color: #1a508b;" >
+                                    <b style="color: white;">Complete</b>
+                                    <button class='btn btn-success btn-sm'@click="gantiHalaman('add-task4')" >add</button>
+                                    <div v-for="task in tasks"  :key="task.id" v-if="task.CategoryId == 4">
                                     <div class="card" style="margin: 2px;">
                                           <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
+                                            <h5 class="card-title">{{  task.title }}</h5>
                                             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            <a href="#" class="btn btn-primary" @click="udpateTask()">Update</a>
+                                            <a href="#" class="btn btn-danger" @click="deleteTask()">Delete</a>
                                           </div>
                                         </div>
-                              </div>
-                        </div><div class="col-2 col-sm"  >
-                              <div class="rounded" style="background-color: #c1a1d3; height: 80vh;" >
-                                    <b>Complete</b>
-                                    <div class="card" style="margin: 2px;">
-                                          <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                                          </div>
                                         </div>
                               </div>
                         </div>
                   </div>
-            </div>
+      
+            
+
+            <!-- LOG IN FORM -->
+            <div class="login-page m-5" v-if="halaman == 'login'">
+                  <h3>Log in form</h3>
+                  <form @submit.prevent="login()">
+                        <div class="row mb-3">
+                              <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                              <div class="col-sm-10">
+                                <input type="email" class="form-control" id="inputEmail3" v-model="email">
+                              </div>
+                        </div>
+                        <div class="row mb-3">
+                              <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="form-control" id="inputPassword3" v-model="password">
+                              </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">submit</button>
+                  </form>
+            </div> 
+
+            <!-- REGISTER FORM-->
+            <div class="register-page m-5" v-if="halaman == 'register'">
+                  <h3>Register form</h3>
+                  <form @submit.prevent="register()">
+                        <div class="row mb-3">
+                              <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                              <div class="col-sm-10">
+                                <input type="email" class="form-control" id="inputEmail3" v-model="email">
+                              </div>
+                        </div>
+                        <div class="row mb-3">
+                              <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="form-control" id="inputPassword3" v-model="password">
+                              </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">submit</button>
+                  </form>
+
+            </div> 
+
+            <!--ADD TASK -->
+             <div class="add-page m-5" v-if="halaman == 'add-task' ||halaman == 'add-task1' || halaman == 'add-task2' || halaman == 'add-task3' || halaman == 'add-task4'">
+                  <h3>Add form</h3>
+                  <form @submit.prevent="createTask()">
+                        <div class="row mb-3">
+                              <label for="inputEmail3" class="col-sm-2 col-form-label">title</label>
+                              <div class="col-sm-10">
+                                <input type="title" class="form-control" id="inputEmail3" v-model="title">
+                              </div>
+                        </div>
+                        <div class="row mb-3">
+                              <label for="inputEmail3" class="col-sm-2 col-form-label">Category</label>
+                              <div class="col-sm-10">
+                                    <select class="form-select"  v-model="CategoryId">
+                                          <option value="1" v-if="halaman == 'add-task' ||halaman == 'add-task1'" >Backlog</option>
+                                          <option value="2" v-if="halaman == 'add-task' ||halaman == 'add-task2'">Todo</option>
+                                          <option value="3" v-if="halaman == 'add-task' ||halaman == 'add-task3'">Doing</option>
+                                          <option value="4" v-if="halaman == 'add-task' ||halaman == 'add-task4'">Complete</option>
+                                        </select>
+                                  </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">submit</button>
+                  </form>
+
+            </div> 
+      </div>
+            
+
+
+            <!--CDN -->
+           
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+            <script src="./src/main.js"></script>
 </body>
 </html>
