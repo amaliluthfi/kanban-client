@@ -157,7 +157,7 @@ export default {
          return {
                message: 'hello world',
                halaman: 'home',
-               baseUrl: 'http://localhost:3000',
+               baseUrl: 'https://kanban-yuk.herokuapp.com',
                email: '',
                password: '',
                CategoryId: '',
