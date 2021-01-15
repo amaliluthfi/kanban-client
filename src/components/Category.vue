@@ -9,7 +9,9 @@
                   :task="task" 
                   v-if="task.CategoryId == category.id" 
                   @deleteTask="deleteTask" 
-                  @updatePage="updatePage">
+                  @updatePage="updatePage"
+                  @prevCategory="prevCategory"
+                  @nextCategory="nextCategory">
                   </task-card>
         
             </div>
@@ -34,6 +36,12 @@ export default {
             },
             gantiHalaman(page){
                   this.$emit('gantiHalaman', page)
+            },
+            prevCategory(id, categoryId){
+                  this.$emit('prevCategory', id, categoryId)
+            },
+            nextCategory(id, categoryId){
+                  this.$emit('nextCategory', id, categoryId)
             }
       },
       props: ['category', 'tasks']
