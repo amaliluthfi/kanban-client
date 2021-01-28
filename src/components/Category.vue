@@ -2,7 +2,7 @@
       <div class="col-2 col-sm"   >
             <div class="rounded" style="background-color: #1a508b;">
                   <b style="color: white;" value >{{ category.name }}</b>
-                  <button class='btn btn-success btn-sm' @click="gantiHalaman('add-task' + category.id)" >add</button>
+                  <button class='btn btn-success btn-sm' @click="gantiHalamanAdd('add-task' + category.id, category.id)" >add</button>
                   <task-card  
                   v-for="task in tasks" 
                   key="task.id" 
@@ -42,6 +42,9 @@ export default {
             },
             nextCategory(id, categoryId){
                   this.$emit('nextCategory', id, categoryId)
+            },
+            gantiHalamanAdd(page, categoryId){
+                  this.$emit('gantiHalamanAdd', page, categoryId)
             }
       },
       props: ['category', 'tasks']

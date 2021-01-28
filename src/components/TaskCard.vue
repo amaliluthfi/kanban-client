@@ -24,7 +24,6 @@ export default {
             },
             updatePage(id){
                   this.$emit('updatePage', id)
-
             },
             prevCategory(id, categoryId){
                   this.$emit('prevCategory', id, categoryId)

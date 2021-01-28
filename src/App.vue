@@ -8,7 +8,6 @@
             <div class="nav-link active" v-if="halaman == 'update-page' || halaman == 'add-task' || halaman == 'home' || halaman == 'add-task1' || halaman == 'add-task2' || halaman == 'add-task3' || halaman == 'add-task4'">
                   <ul>
                         <li><a href="#"  @click="home()">home</a></li>
-                        <li><a href="#" @click="getAll()">tasks</a></li>
                         <li><a href="#" @click="gantiHalaman('add-task')"> add task</a></li>
                   </ul>
             </div>
@@ -34,7 +33,8 @@
        @updatePage="updatePage"
        @gantiHalaman="gantiHalaman"
        @prevCategory="prevCategory"
-       @nextCategory="nextCategory">
+       @nextCategory="nextCategory"
+       @gantiHalamanAdd="gantiHalamanAdd">
        </category>  
 
       </div>
@@ -94,13 +94,13 @@
                   <h3>Add form</h3>
                   <form @submit.prevent="createTask()">
                         <div class="row mb-3">
-                              <label for="inputEmail3" class="col-sm-2 col-form-label">title</label>
+                              <label for="inputtitle" class="col-sm-2 col-form-label">title</label>
                               <div class="col-sm-10">
-                                <input type="title" class="form-control" id="inputEmail3" v-model="title">
+                                <input type="title" class="form-control" id="inputtitle" v-model="title">
                               </div>
                         </div>
                         <div class="row mb-3">
-                              <label for="inputEmail3" class="col-sm-2 col-form-label">Category</label>
+                              <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
                               <div class="col-sm-10">
                                     <select class="form-select"  v-model="CategoryId">
                                           <option value="1" v-if="halaman == 'add-task' ||halaman == 'add-task1'" >Backlog</option>
@@ -156,7 +156,7 @@ export default {
    data(){
          return {
                message: 'hello world',
-               halaman: 'home',
+               halaman: '',
                baseUrl: 'https://kanban-yuk.herokuapp.com',
                email: '',
                password: '',
@@ -250,7 +250,7 @@ export default {
           }).catch(error => {
              console.log('error', error)
           })
-    },
+      },
       getAll(){
             axios({
                   method: "get",
@@ -259,9 +259,7 @@ export default {
                         access_token: localStorage.getItem('access_token')
                   }
             }).then(response => {
-                  // console.log(response.data);
                   this.tasks = response.data
-                  console.log(this.tasks);
             }).catch(err => {
                   console.log(err);
             })
@@ -274,15 +272,12 @@ export default {
                     access_token: localStorage.getItem('access_token')
               }
             }).then(response => {
-                  console.log(response.data);
                   this.categories = response.data
-                  console.log(this.categories);
             }).catch(err => {
                   console.log(err);
             })
       },
       createTask(){
-
             axios({
                   method: "post",
                   url: `${this.baseUrl}/tasks`,
@@ -296,14 +291,14 @@ export default {
                   }
             }).then(response => {
                   this.home()
-
+                  this.title = ''
+                  this.CategoryId = ''
             }).catch(err => {
                   console.log(err);
 
             })
       },
       updatePage(id){
-  
             axios({
                   method: 'get',
                   url: `${this.baseUrl}/tasks/${id}`,
@@ -311,7 +306,6 @@ export default {
                         access_token: localStorage.getItem('access_token')
                   }
             }).then(response => {
-                  console.log(response.data);
                   this.title = response.data.title
                   this.CategoryId = response.data.CategoryId
                   this.id = id
@@ -381,26 +375,27 @@ export default {
             })
 
       },
-      
       deleteTask(id){
-            
             axios({
                   method: 'delete',
                   url: `${this.baseUrl}/tasks/${id}`,
                   headers: {
                     access_token: localStorage.getItem('access_token')
               }
-                  
             }).then(response => {
                   this.checkAuth()
             }).catch(err => {
                   console.log(err);
             })
-
       },
       logout(){
             localStorage.clear()
             this.gantiHalaman('login')
+      },
+      gantiHalamanAdd(page, categoryId){
+            console.log(page, categoryId);
+            this.CategoryId = categoryId
+            this.halaman = page
       }
    },
    created() {
